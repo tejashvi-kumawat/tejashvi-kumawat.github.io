@@ -421,6 +421,25 @@ main {
   color: rgba(242, 242, 240, 0.9);
 }
 
+.optinqo-art {
+  background:
+    radial-gradient(circle at 25% 30%, rgba(126, 231, 231, 0.35), transparent 42%),
+    radial-gradient(circle at 75% 70%, rgba(216, 255, 62, 0.22), transparent 45%),
+    linear-gradient(145deg, #0a1218, #0a0a0a);
+}
+.optinqo-art::after {
+  content: "MCP";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 2rem;
+  letter-spacing: 0.08em;
+  color: var(--accent-3);
+}
+
 .geoperix-art {
   background:
     repeating-linear-gradient(0deg, transparent, transparent 18px, rgba(126, 231, 231, 0.08) 18px, rgba(126, 231, 231, 0.08) 19px),

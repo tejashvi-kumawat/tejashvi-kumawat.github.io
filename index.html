@@ -99,11 +99,14 @@
           <strong>Rendezvous</strong>, Blockchain Society, and eDC.
         </p>
         <p>
-          On the research / HPC side I contribute to <strong>GeoPeriX</strong> — a high-performance
-          C++17 peridynamics engine for geomechanics with Python bindings — focusing on optimization
-          paths, tooling, and engineering workflows. Separately I ship open products like
-          <strong>Document Studio</strong> and <strong>OpenCanvasX</strong>: local-first desktop
-          software where documents and canvases stay on-device by default. Full timeline on
+          I’ve also built <strong>Optinqo’s v03 agentic analytics stack</strong> — an MCP tool-calling
+          data analyst with EDA / RCA / time-series modes — and contribute to <strong>GeoPeriX</strong>
+          (C++17 peridynamics for geomechanics; see
+          <a href="https://geoperix.readthedocs.io/en/latest/" target="_blank" rel="noopener">the docs</a>).
+          On campus I shipped the
+          <a href="https://play.google.com/store/apps/details?id=in.nssiitd&amp;hl=en_IN" target="_blank" rel="noopener">NSS IIT Delhi app</a>,
+          task managers, and a WhatsApp JS + RAG bot, plus open products like
+          <strong>Document Studio</strong> and <strong>OpenCanvasX</strong>. Full timeline on
           <a href="https://www.linkedin.com/in/tejashvi-kumawat" target="_blank" rel="noopener">LinkedIn</a>.
         </p>
       </div>
@@ -139,6 +142,19 @@
           </button>
           <div class="timeline-body">
             <p>Building Sovaria as a single backend platform: gateway, engines, contracts, SDK / CLI, and orchestration — focused on speed, clarity, and developer experience from prototype to production. <a href="https://sovaria.in" target="_blank" rel="noopener">sovaria.in</a></p>
+          </div>
+        </li>
+        <li class="timeline-item">
+          <button class="timeline-toggle" type="button" aria-expanded="false">
+            <span class="timeline-dot" aria-hidden="true"></span>
+            <span class="timeline-meta">
+              <span class="timeline-role">Software engineering · agentic analytics</span>
+              <span class="timeline-org">Optinqo</span>
+            </span>
+            <span class="timeline-when">v03 platform</span>
+          </button>
+          <div class="timeline-body">
+            <p>Built the MCP-based AI analytics product surface (frontend v03 + paired backend) — tool-calling chat, EDA / RCA / time-series modes, data connectors, and chart/table renderers for an agentic data analyst. Also contributed frontend / schema work recognized in partner recommendations.</p>
           </div>
         </li>
         <li class="timeline-item">
@@ -238,7 +254,7 @@
     <section class="panel" id="work">
       <header class="section-head">
         <h2>Things I’m building</h2>
-        <p>Ordered by where my focus and responsibility sit right now — platforms first, then products, research, and campus systems.</p>
+        <p>Ordered by focus and responsibility — researched from the actual code, docs, and shipped surfaces.</p>
       </header>
 
       <article class="work-card featured">
@@ -247,11 +263,11 @@
           <p class="kicker">01 · Platform</p>
           <h3>Sovaria</h3>
           <p>
-            My startup: a unified backend platform instead of a pile of disconnected services.
-            Gateway ingress, execution engines, typed contracts, SDK / CLI ergonomics, and
-            orchestration that keeps prototypes deployable as they grow. Most org code under
-            <a href="https://github.com/sovaria" target="_blank" rel="noopener">github.com/sovaria</a>
-            stays private while the product hardens.
+            My startup: a unified backend platform instead of a Frankenstein of half-wired services.
+            Private org stack includes <code>sovaria-gateway</code>, <code>sovaria-engines</code>,
+            <code>sovaria-contracts</code>, <code>sovaria-sdk</code>, <code>sovaria-cli</code>,
+            <code>sovaria-orchestrator</code>, and platform / frontend repos — aimed at speed, clarity,
+            and developer experience from prototype to production.
             Public site: <a href="https://sovaria.in" target="_blank" rel="noopener">sovaria.in</a>.
           </p>
           <div class="tags"><span>Founder</span><span>Gateway</span><span>SDK / CLI</span><span>Orchestration</span></div>
@@ -264,81 +280,112 @@
         </div>
         <div class="work-copy">
           <p class="kicker">02 · Desktop product</p>
-          <h3><a href="https://github.com/tejashvi-kumawat/DocumentStudio" target="_blank" rel="noopener">Document Studio</a></h3>
+          <h3><a href="https://tejashvi-kumawat.github.io/DocumentStudio/" target="_blank" rel="noopener">Document Studio</a></h3>
           <p>
-            Cross-platform offline PDF workspace (Windows / macOS / Linux) in Flutter: merge &amp; split,
-            encryption, OCR, Office conversion, markup, digital signatures — without uploading files
-            to a third-party cloud. Homebrew tap + desktop installers. The hard parts are packaging,
-            native toolchain glue, and keeping local pipelines fast.
+            Offline PDF workspace for Windows, macOS, and Linux (Flutter) — private dashboard, tools grid,
+            page organize / merge / split / extract / insert, encrypt with real permissions, watermark,
+            certificates &amp; visual signatures, markup, local Tesseract OCR, LibreOffice Office→PDF,
+            compress, batch, metadata, redact, repair. Engines stay on-device; no cloud upload of your files.
+            Distributed via Setup.exe / DMG / .deb and a Homebrew tap.
           </p>
-          <div class="tags"><span>Flutter</span><span>PDF</span><span>OCR</span><span>Privacy</span></div>
+          <div class="tags"><span>Flutter</span><span>PDF pipelines</span><span>OCR</span><span>Privacy</span></div>
           <div class="work-links">
-            <a class="text-link" href="https://github.com/tejashvi-kumawat/DocumentStudio" target="_blank" rel="noopener">Repository →</a>
+            <a class="text-link" href="https://tejashvi-kumawat.github.io/DocumentStudio/" target="_blank" rel="noopener">Docs &amp; downloads →</a>
+            <a class="text-link" href="https://github.com/tejashvi-kumawat/DocumentStudio" target="_blank" rel="noopener">GitHub →</a>
           </div>
         </div>
       </article>
 
       <article class="work-card reverse">
+        <div class="work-media optinqo-art" aria-hidden="true"></div>
+        <div class="work-copy">
+          <p class="kicker">03 · Agentic analytics</p>
+          <h3>Optinqo · AI analytics (v03)</h3>
+          <p>
+            MCP-based agentic data analyst under the <a href="https://github.com/optinqo" target="_blank" rel="noopener">optinqo</a>
+            org — private <code>v03_frontend</code> (<code>ai-analytics-frontend</code> v0.3) talking to a
+            paired v03 backend. Natural-language chat over data with tool-calling through an MCP server:
+            EDA, time-series, RCA investigation flows, QCN / QPN analysis modes, file + Google Sheets
+            connectors, and rich renderers (charts, tables, math, code). The model plans and calls tools;
+            computation stays in deterministic server tools so results stay auditable.
+          </p>
+          <div class="tags"><span>MCP</span><span>Agents</span><span>EDA / RCA</span><span>React</span></div>
+        </div>
+      </article>
+
+      <article class="work-card">
         <div class="work-media geoperix-art" aria-hidden="true"></div>
         <div class="work-copy">
-          <p class="kicker">03 · Scientific computing</p>
+          <p class="kicker">04 · Scientific computing</p>
           <h3>GeoPeriX</h3>
           <p>
-            High-performance peridynamics framework for geomechanics — C++17 engine with
-            <code>PyGeoPeriX</code> Python bindings (pybind11). Models fracture, damage, and progressive
-            failure without remeshing; constitutive models include linear elastic, kinematic hardening,
-            and Drucker-Prager; outputs HDF5 time-series for ParaView. I work on optimization paths,
-            tooling, and engineering workflows around the stack.
+            High-performance peridynamics framework for geomechanics
+            (<a href="https://geoperix.readthedocs.io/en/latest/" target="_blank" rel="noopener">docs</a>) —
+            optimized C++17 engine with <code>PyGeoPeriX</code> (pybind11). Spontaneous crack growth in 2D/3D,
+            progressive damage, multi-fracture without remeshing; materials include linear elastic,
+            kinematic hardening, and Drucker-Prager; HDF5 time-series + ParaView plugin. My work sits on
+            optimization paths, tooling, and engineering workflows around that stack.
           </p>
           <div class="tags"><span>C++17</span><span>Peridynamics</span><span>Python</span><span>HDF5</span></div>
           <div class="work-links">
-            <a class="text-link" href="https://geoperix.readthedocs.io/en/latest/" target="_blank" rel="noopener">Documentation →</a>
+            <a class="text-link" href="https://geoperix.readthedocs.io/en/latest/" target="_blank" rel="noopener">geoperix.readthedocs.io →</a>
           </div>
-        </div>
-      </article>
-
-      <article class="work-card">
-        <div class="work-media opencanvas-art" aria-hidden="true"></div>
-        <div class="work-copy">
-          <p class="kicker">04 · Local-first studio</p>
-          <h3><a href="https://github.com/tejashvi-kumawat/OpenCanvasX" target="_blank" rel="noopener">OpenCanvasX</a></h3>
-          <p>
-            Local-first design studio for graphics, presentations, documents, and diagrams.
-            Offline by default; optional local AI / BYOK, plugins, and peer collaboration without
-            mandatory accounts. Focus areas: document model, rendering performance, and keeping
-            collaboration optional rather than forced.
-          </p>
-          <div class="tags"><span>C++</span><span>Document model</span><span>Local AI</span></div>
         </div>
       </article>
 
       <article class="work-card reverse">
-        <div class="work-media nss-art" aria-hidden="true"></div>
+        <div class="work-media opencanvas-art" aria-hidden="true"></div>
         <div class="work-copy">
-          <p class="kicker">05 · Education systems</p>
-          <h3>NSS · Himalayan Vidyadaan · DoEP</h3>
+          <p class="kicker">05 · Local-first studio</p>
+          <h3><a href="https://github.com/tejashvi-kumawat/OpenCanvasX" target="_blank" rel="noopener">OpenCanvasX</a></h3>
           <p>
-            Org-backed teaching and digitisation platforms — React / Django teaching apps for NSS,
-            Himalayan Vidya Daan field education, DoEP frontend, and internal project managers with
-            role-based dashboards. Much of this stays private because it runs real classes and volunteer ops.
+            Free, open-source, local-first design studio (Apache-2.0) for graphics, illustrations,
+            presentations, documents, diagrams, animation, and video — without mandatory cloud, accounts,
+            or subscriptions. Monorepo: Flutter desktop shell, Dart packages, Rust native core via
+            <code>flutter_rust_bridge</code>, plus architecture / protocol docs. Supports powerful design
+            tools, local AI / BYOK, plugins, templates, offline editing, and optional peer-to-peer
+            collaboration. Currently in early scaffolding (Phase 0) with CI and desktop shell in place.
           </p>
-          <div class="tags"><span>React</span><span>Django</span><span>Edtech</span></div>
+          <div class="tags"><span>Flutter</span><span>Rust</span><span>Local-first</span><span>BYOK</span></div>
           <div class="work-links">
-            <a class="text-link" href="https://www.himalayanvidyadaan.org" target="_blank" rel="noopener">himalayanvidyadaan.org →</a>
+            <a class="text-link" href="https://github.com/tejashvi-kumawat/OpenCanvasX" target="_blank" rel="noopener">Repository →</a>
           </div>
         </div>
       </article>
 
       <article class="work-card">
+        <div class="work-media nss-art" aria-hidden="true"></div>
+        <div class="work-copy">
+          <p class="kicker">06 · Campus ops &amp; NSS</p>
+          <h3>NSS IIT Delhi systems</h3>
+          <p>
+            Shipped the
+            <a href="https://play.google.com/store/apps/details?id=in.nssiitd&amp;hl=en_IN" target="_blank" rel="noopener">NSS IIT Delhi Android app</a>
+            (Play Store — hours, events, volunteering, complaints, blood / scribe requests, campus map).
+            Also built the NSS <strong>task / project manager</strong> (role-based dashboards, assignments,
+            activity logs), a <strong>WhatsApp broadcast + query bot</strong> on WhatsApp JS API with
+            <strong>RAG</strong> replies for group FAQs, plus DoEP digitisation frontends and the
+            Himalayan Vidya Daan / teaching web apps used in the field.
+          </p>
+          <div class="tags"><span>Android</span><span>WhatsApp JS</span><span>RAG</span><span>React / Django</span></div>
+          <div class="work-links">
+            <a class="text-link" href="https://play.google.com/store/apps/details?id=in.nssiitd&amp;hl=en_IN" target="_blank" rel="noopener">Play Store →</a>
+            <a class="text-link" href="https://www.himalayanvidyadaan.org" target="_blank" rel="noopener">Himalayan Vidyadaan →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="work-card reverse">
         <div class="work-media tryst-art" aria-hidden="true"></div>
         <div class="work-copy">
-          <p class="kicker">06 · Event platforms</p>
+          <p class="kicker">07 · Fest platforms</p>
           <h3>Tryst IIT Delhi</h3>
           <p>
             Private fest infrastructure under
             <a href="https://github.com/Tryst-IIT-Delhi" target="_blank" rel="noopener">Tryst-IIT-Delhi</a> —
-            main site, CAP portals, pass booking, mail services. High-stakes web ops: auth, queues,
-            and UX when India’s largest student tech fest spikes traffic.
+            <code>main-frontend/backend-25</code>, CAP portals, <code>pass_check_app</code>,
+            <code>technite-frontend</code> pass booking, and <code>mail-sender-backend</code>.
+            Classic high-stakes web ops when India’s largest student tech fest spikes traffic.
           </p>
           <div class="tags"><span>React</span><span>Django</span><span>Web ops</span></div>
         </div>
@@ -355,10 +402,10 @@
           <h3>AI agents &amp; tool-using systems</h3>
           <p>
             I’m researching how agentic systems plan, call tools, maintain memory, and recover from
-            failure without becoming brittle wrappers around a single model call. That includes
-            multi-step workflows, evaluation harnesses, retrieval / grounding, and the decisive
-            production pieces: timeouts, retries, permission boundaries, and observability when an
-            agent acts on real software.
+            failure — from Optinqo’s MCP analytics agent (EDA / RCA / time-series tool loops) to
+            WhatsApp RAG bots that answer real campus queries. That includes multi-step workflows,
+            evaluation harnesses, retrieval / grounding, and the decisive production pieces: timeouts,
+            retries, permission boundaries, and observability when an agent acts on real software.
           </p>
         </div>
         <div>

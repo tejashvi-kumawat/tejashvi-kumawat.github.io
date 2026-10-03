@@ -26,8 +26,15 @@
   <main>
     <article class="panel">
       <p class="post-meta"><time id="postDate"></time></p>
-      <h1 id="postTitle" style="font-family:var(--font-display);letter-spacing:-0.03em;margin:0 0 1rem"></h1>
+      <h1 id="postTitle" style="font-family:var(--font-display);letter-spacing:-0.03em;margin:0 0 0.75rem"></h1>
+      <div class="post-tags" id="postTags" hidden></div>
       <!-- Change data-slug to match your .md filename (without .md) -->
+      <!-- Optional frontmatter tags:
+           tags:
+             - GitHub | https://github.com/you/repo
+             - v1.0.0 | https://github.com/you/repo/releases/tag/v1.0.0
+             - Offline PDF
+      -->
       <div id="postBody" class="prose" data-slug="YOUR-SLUG">Loading…</div>
     </article>
   </main>

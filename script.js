@@ -3,11 +3,35 @@
   if (year) year.textContent = String(new Date().getFullYear());
 
   initCellField();
+  initHeroSpotlight();
   initTimeline();
+  initProjectStage();
   initRecentPosts();
   initBlogIndex();
   initBlogPost();
 })();
+
+function initHeroSpotlight() {
+  const copy = document.getElementById("heroCopy");
+  const spot = document.getElementById("heroSpotlight");
+  if (!copy || !spot) return;
+
+  const move = (e) => {
+    const rect = copy.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    spot.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    copy.classList.add("is-spotlit");
+  };
+
+  const leave = () => {
+    copy.classList.remove("is-spotlit");
+  };
+
+  copy.addEventListener("pointermove", move, { passive: true });
+  copy.addEventListener("pointerenter", move, { passive: true });
+  copy.addEventListener("pointerleave", leave);
+}
 
 function initTimeline() {
   const root = document.getElementById("timeline");
@@ -20,6 +44,52 @@ function initTimeline() {
       btn.setAttribute("aria-expanded", open ? "true" : "false");
     });
   });
+}
+
+function initProjectStage() {
+  const stage = document.getElementById("projectStage");
+  if (!stage) return;
+  const tiles = [...stage.querySelectorAll(".project-tile")];
+  const panels = [...stage.querySelectorAll(".project-panel")];
+  const prev = document.getElementById("projectPrev");
+  const next = document.getElementById("projectNext");
+  const indexEl = document.getElementById("projectIndex");
+  const totalEl = document.getElementById("projectTotal");
+  if (!tiles.length || !panels.length) return;
+
+  const ids = tiles.map((t) => t.dataset.project);
+  let current = 0;
+  if (totalEl) totalEl.textContent = String(ids.length);
+
+  const show = (i, dir = 1) => {
+    current = (i + ids.length) % ids.length;
+    const id = ids[current];
+    tiles.forEach((tile, idx) => {
+      const on = idx === current;
+      tile.classList.toggle("is-active", on);
+      tile.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    panels.forEach((panel) => {
+      const on = panel.dataset.project === id;
+      panel.classList.toggle("is-active", on);
+      panel.hidden = !on;
+      if (on) {
+        panel.style.setProperty("--dir", String(dir >= 0 ? 1 : -1));
+        panel.style.animation = "none";
+        void panel.offsetWidth;
+        panel.style.animation = "";
+      }
+    });
+    if (indexEl) indexEl.textContent = String(current + 1);
+  };
+
+  tiles.forEach((tile, idx) => {
+    tile.addEventListener("click", () => show(idx, idx > current ? 1 : -1));
+  });
+  prev?.addEventListener("click", () => show(current - 1, -1));
+  next?.addEventListener("click", () => show(current + 1, 1));
+
+  show(0, 1);
 }
 
 function initCellField() {
@@ -182,13 +252,22 @@ function renderPostCards(container, posts, limit, base) {
     container.innerHTML = "<p>No posts yet.</p>";
     return;
   }
-  container.innerHTML = slice.map((p) => `
+  container.innerHTML = slice.map((p) => {
+    const tags = normalizeTags(p.tags);
+    const tagHtml = tags.length
+      ? `<div class="post-tags post-tags-card">${tags.map((t) =>
+          `<span class="post-tag">${escapeHtml(t.label)}</span>`
+        ).join("")}</div>`
+      : "";
+    return `
     <a class="post-card" href="${base}${p.slug}.html">
       <time datetime="${p.date}">${formatDate(p.date)}</time>
       <h3>${escapeHtml(p.title)}</h3>
+      ${tagHtml}
       <p>${escapeHtml(p.summary)}</p>
     </a>
-  `).join("");
+  `;
+  }).join("");
 }
 
 async function initBlogPost() {
@@ -213,15 +292,105 @@ async function initBlogPost() {
         t.textContent = formatDate(meta.date);
       }
     }
+    renderPostTags(meta.tags);
     if (window.marked) {
+      if (typeof window.marked.setOptions === "function") {
+        window.marked.setOptions({ gfm: true, breaks: false });
+      }
       el.innerHTML = window.marked.parse(body);
     } else {
       el.textContent = body;
     }
+    enhanceCodeBlocks(el);
     await renderPostNav(slug);
   } catch {
     el.innerHTML = "<p>Could not load this post.</p>";
   }
+}
+
+function renderPostTags(rawTags) {
+  const host = document.getElementById("postTags");
+  if (!host) return;
+  const tags = normalizeTags(rawTags);
+  if (!tags.length) {
+    host.hidden = true;
+    host.innerHTML = "";
+    return;
+  }
+  host.hidden = false;
+  host.innerHTML = tags.map((t) => {
+    if (t.href) {
+      return `<a class="post-tag post-tag-link" href="${escapeAttr(t.href)}" target="_blank" rel="noopener noreferrer">${escapeHtml(t.label)}</a>`;
+    }
+    return `<span class="post-tag">${escapeHtml(t.label)}</span>`;
+  }).join("");
+}
+
+function normalizeTags(raw) {
+  if (!raw) return [];
+  if (typeof raw === "string") {
+    try {
+      const parsed = JSON.parse(raw);
+      return normalizeTags(parsed);
+    } catch {
+      return raw.split(",").map((s) => parseTagToken(s.trim())).filter(Boolean);
+    }
+  }
+  if (!Array.isArray(raw)) return [];
+  return raw.map((item) => {
+    if (!item) return null;
+    if (typeof item === "string") return parseTagToken(item);
+    if (typeof item === "object") {
+      const label = String(item.label || item.name || "").trim();
+      if (!label) return null;
+      const href = String(item.href || item.url || "").trim();
+      return href ? { label, href } : { label };
+    }
+    return null;
+  }).filter(Boolean);
+}
+
+function parseTagToken(token) {
+  if (!token) return null;
+  const pipe = token.indexOf("|");
+  if (pipe === -1) return { label: token.trim() };
+  const label = token.slice(0, pipe).trim();
+  const href = token.slice(pipe + 1).trim();
+  if (!label) return null;
+  return href ? { label, href } : { label };
+}
+
+function enhanceCodeBlocks(root) {
+  if (!root) return;
+  root.querySelectorAll("pre").forEach((pre) => {
+    if (pre.parentElement?.classList.contains("code-block")) return;
+    const wrap = document.createElement("div");
+    wrap.className = "code-block";
+    pre.parentNode.insertBefore(wrap, pre);
+    wrap.appendChild(pre);
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "code-copy";
+    btn.setAttribute("aria-label", "Copy code");
+    btn.textContent = "Copy";
+    btn.addEventListener("click", async () => {
+      const text = pre.innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = "Copied";
+        btn.classList.add("is-copied");
+        setTimeout(() => {
+          btn.textContent = "Copy";
+          btn.classList.remove("is-copied");
+        }, 1600);
+      } catch {
+        btn.textContent = "Failed";
+        setTimeout(() => { btn.textContent = "Copy"; }, 1600);
+      }
+    });
+    wrap.appendChild(btn);
+  });
 }
 
 async function renderPostNav(slug) {
@@ -251,13 +420,39 @@ function parseFrontMatter(md) {
   const raw = md.slice(3, end).trim();
   const body = md.slice(end + 4).trim();
   const meta = {};
-  for (const line of raw.split("\n")) {
-    const i = line.indexOf(":");
-    if (i === -1) continue;
-    const key = line.slice(0, i).trim();
-    let val = line.slice(i + 1).trim();
+  const lines = raw.split("\n");
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.trim()) continue;
+    if (/^\s+-\s+/.test(line)) continue;
+    const colon = line.indexOf(":");
+    if (colon === -1) continue;
+    const key = line.slice(0, colon).trim();
+    let val = line.slice(colon + 1).trim();
     if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
       val = val.slice(1, -1);
+    }
+    if (key === "tags" && (!val || val === "|" || val === ">-")) {
+      const items = [];
+      while (i + 1 < lines.length && /^\s+-\s+/.test(lines[i + 1])) {
+        i += 1;
+        items.push(lines[i].replace(/^\s+-\s+/, "").trim());
+      }
+      meta.tags = items;
+      continue;
+    }
+    if (key === "tags" && val.startsWith("[")) {
+      let json = val;
+      while (!json.trim().endsWith("]") && i + 1 < lines.length) {
+        i += 1;
+        json += lines[i];
+      }
+      try {
+        meta.tags = JSON.parse(json);
+      } catch {
+        meta.tags = val;
+      }
+      continue;
     }
     meta[key] = val;
   }
@@ -282,4 +477,8 @@ function escapeHtml(s) {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
+}
+
+function escapeAttr(s) {
+  return escapeHtml(s).replace(/'/g, "&#39;");
 }

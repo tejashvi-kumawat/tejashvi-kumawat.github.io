@@ -1,20 +1,14 @@
 [
   {
-    "slug": "building-in-public-offline",
-    "title": "Why I keep shipping offline-first",
-    "summary": "Privacy, packaging, and product craft — the principles behind Document Studio and OpenCanvasX.",
-    "date": "2026-03-20"
-  },
-  {
-    "slug": "sovaria-and-campus-systems",
-    "title": "Sovaria, agents, and selective focus",
-    "summary": "What I’m prioritizing: Sovaria, agent research, GeoPeriX optimization work, and campus systems that actually ship.",
-    "date": "2026-03-28"
-  },
-  {
     "slug": "document-studio-open-and-fast",
-    "title": "Why Document Studio is open — and why local beats Acrobat’s cloud path",
-    "summary": "Feature parity with suite-class PDF jobs, open source for auditability, and why local engines feel faster than cloud conversion.",
-    "date": "2026-04-02"
+    "title": "Document Studio — offline PDF toolkit vs Acrobat and online converters",
+    "summary": "Why install Document Studio, full feature map, downloads and install commands for Windows, macOS, and Linux, and why local engines beat Adobe cloud and browser upload tools.",
+    "date": "2026-10-03",
+    "tags": [
+      { "label": "GitHub", "href": "https://github.com/tejashvi-kumawat/DocumentStudio" },
+      { "label": "v1.0.3", "href": "https://github.com/tejashvi-kumawat/DocumentStudio/releases/tag/v1.0.3" },
+      { "label": "Offline PDF" },
+      { "label": "Open Source" }
+    ]
   }
 ]

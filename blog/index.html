@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blog · Tejashvi Kumawat</title>
+  <meta name="description" content="Writing by Tejashvi Kumawat — products, research tooling, and campus systems." />
+  <meta name="theme-color" content="#0A0F14" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script src="../script.js" defer></script>
+</head>
+<body class="blog-page">
+  <canvas id="cellField" aria-hidden="true"></canvas>
+
+  <header class="top">
+    <a class="logo" href="../">Tejashvi</a>
+    <nav>
+      <a href="../#about">About</a>
+      <a href="../#work">Work</a>
+      <a href="../#interests">Interests</a>
+      <a href="./">Blog</a>
+      <a href="../#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="https://github.com/tejashvi-kumawat" target="_blank" rel="noopener">GitHub</a>
+  </header>
+
+  <main>
+    <section class="blog-hero">
+      <p class="eyebrow">Writing</p>
+      <h1>Blog</h1>
+      <p class="lede">Short notes on products, research engineering, and campus tech.</p>
+    </section>
+
+    <section class="panel">
+      <div id="allPosts" class="post-list" aria-live="polite">Loading…</div>
+    </section>
+
+    <section class="panel">
+      <h2>How I publish</h2>
+      <p style="color:var(--muted);margin:0">
+        Posts are Markdown files in this repo — no public admin panel, no shared CMS password.
+        See <a href="../BLOGGING.md">BLOGGING.md</a> for the secure workflow.
+      </p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© <span id="year"></span> Tejashvi Kumawat · <a href="../">Home</a></p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Post title · Tejashvi Kumawat</title>
+  <meta name="theme-color" content="#0A0F14" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js" defer></script>
+  <script src="../script.js" defer></script>
+</head>
+<body class="blog-page">
+  <canvas id="cellField" aria-hidden="true"></canvas>
+  <header class="top">
+    <a class="logo" href="../">Tejashvi</a>
+    <nav>
+      <a href="../#about">About</a>
+      <a href="./">Blog</a>
+      <a href="../#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="./">All posts</a>
+  </header>
+  <main>
+    <article class="panel">
+      <p class="post-meta"><time id="postDate"></time></p>
+      <h1 id="postTitle" style="font-family:var(--font-display);letter-spacing:-0.03em;margin:0 0 1rem"></h1>
+      <!-- Change data-slug to match your .md filename (without .md) -->
+      <div id="postBody" class="prose" data-slug="YOUR-SLUG">Loading…</div>
+    </article>
+  </main>
+  <footer class="footer">
+    <p><a href="./">← Blog</a> · <a href="../">Home</a></p>
+  </footer>
+</body>
+</html>

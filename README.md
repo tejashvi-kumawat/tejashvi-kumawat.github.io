@@ -1,5 +1,7 @@
 # tejashvi-kumawat.github.io
 
-Personal portfolio for **Tejashvi Kumawat** — [tejashvi-kumawat.github.io](https://tejashvi-kumawat.github.io).
+Personal portfolio + blog for [Tejashvi Kumawat](https://tejashvi-kumawat.github.io).
 
-Static site (HTML / CSS / JS). GitHub Pages serves from the `main` branch root.
+- Home: about, selected work, interests, recent posts
+- Blog: Markdown posts under `blog/`
+- Publishing guide: [BLOGGING.md](./BLOGGING.md)

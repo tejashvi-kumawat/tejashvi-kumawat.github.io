@@ -137,39 +137,38 @@ main {
 .hero-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 0;
+  gap: 1.5rem;
   align-items: center;
   isolation: isolate;
-  min-height: clamp(360px, 62vh, 620px);
   position: relative;
 }
 
 @media (min-width: 780px) {
   .hero-layout {
-    grid-template-columns: minmax(0, 1.05fr) minmax(280px, 1fr);
+    grid-template-columns: minmax(0, 1fr) 220px;
+    gap: 1.75rem;
   }
+}
 
-  /* Bleed into the right viewport so the figure emerges from the page edge */
-  .hero-photo {
-    width: calc(100% + max(1.5rem, (100vw - var(--max)) / 2));
-    margin-right: calc(-1 * max(1.5rem, (100vw - var(--max)) / 2));
+@media (min-width: 980px) {
+  .hero-layout {
+    grid-template-columns: minmax(0, 1fr) 240px;
   }
 }
 
 .hero-copy {
   position: relative;
   z-index: 3;
-  padding-right: 1rem;
 }
 
-/* Photo emerges from the right into the cell field — no card chrome */
+/* Compact portrait dissolving evenly into the cell field on all sides */
 .hero-photo {
   margin: 0;
   position: relative;
   z-index: 2;
-  width: 100%;
-  height: 100%;
-  min-height: clamp(300px, 52vh, 560px);
+  width: min(220px, 48vw);
+  aspect-ratio: 3 / 4;
+  justify-self: end;
   border: 0;
   background: transparent;
   box-shadow: none;
@@ -178,43 +177,35 @@ main {
 }
 
 @media (max-width: 779px) {
-  .hero-layout { min-height: 0; }
   .hero-photo {
     order: -1;
-    min-height: 280px;
-    max-width: 320px;
-    margin: 0 auto 0.5rem;
+    justify-self: center;
+    width: min(180px, 46vw);
   }
 }
 
 .hero-photo img {
   width: 100%;
   height: 100%;
-  min-height: inherit;
   object-fit: cover;
-  object-position: 52% 12%;
+  object-position: 50% 14%;
   display: block;
-  filter: contrast(1.08) saturate(0.88) brightness(0.86);
-  /* Soft dissolve into black cells on every edge */
-  -webkit-mask-image:
-    linear-gradient(90deg, transparent 0%, #000 18%, #000 72%, transparent 100%),
-    linear-gradient(180deg, transparent 0%, #000 12%, #000 78%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image:
-    linear-gradient(90deg, transparent 0%, #000 18%, #000 72%, transparent 100%),
-    linear-gradient(180deg, transparent 0%, #000 12%, #000 78%, transparent 100%);
-  mask-composite: intersect;
-}
-
-.hero-photo::after {
-  content: "";
-  position: absolute;
-  inset: -8% -12%;
-  pointer-events: none;
-  background:
-    radial-gradient(ellipse 70% 80% at 70% 40%, transparent 20%, rgba(0, 0, 0, 0.55) 70%, #000 100%),
-    linear-gradient(90deg, #000 0%, transparent 40%),
-    linear-gradient(180deg, transparent 55%, #000 100%);
+  filter: contrast(1.06) saturate(0.9) brightness(0.9);
+  /* Equal soft fade: left + right + top + bottom */
+  -webkit-mask-image: radial-gradient(
+    ellipse 72% 78% at 50% 48%,
+    #000 0%,
+    #000 42%,
+    rgba(0, 0, 0, 0.55) 62%,
+    transparent 78%
+  );
+  mask-image: radial-gradient(
+    ellipse 72% 78% at 50% 48%,
+    #000 0%,
+    #000 42%,
+    rgba(0, 0, 0, 0.55) 62%,
+    transparent 78%
+  );
 }
 
 .work-note {

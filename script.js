@@ -3,10 +3,24 @@
   if (year) year.textContent = String(new Date().getFullYear());
 
   initCellField();
+  initTimeline();
   initRecentPosts();
   initBlogIndex();
   initBlogPost();
 })();
+
+function initTimeline() {
+  const root = document.getElementById("timeline");
+  if (!root) return;
+  root.querySelectorAll(".timeline-toggle").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const item = btn.closest(".timeline-item");
+      if (!item) return;
+      const open = item.classList.toggle("open");
+      btn.setAttribute("aria-expanded", open ? "true" : "false");
+    });
+  });
+}
 
 function initCellField() {
   const canvas = document.getElementById("cellField");
@@ -204,8 +218,29 @@ async function initBlogPost() {
     } else {
       el.textContent = body;
     }
+    await renderPostNav(slug);
   } catch {
     el.innerHTML = "<p>Could not load this post.</p>";
+  }
+}
+
+async function renderPostNav(slug) {
+  const nav = document.getElementById("postNav");
+  if (!nav) return;
+  try {
+    const res = await fetch("posts.json", { cache: "no-store" });
+    if (!res.ok) return;
+    const posts = (await res.json()).sort((a, b) => (a.date < b.date ? 1 : -1));
+    const i = posts.findIndex((p) => p.slug === slug);
+    if (i === -1) return;
+    const newer = i > 0 ? posts[i - 1] : null;
+    const older = i < posts.length - 1 ? posts[i + 1] : null;
+    nav.innerHTML = `
+      ${older ? `<a href="${older.slug}.html"><span class="dir">← Older</span><span class="title">${escapeHtml(older.title)}</span></a>` : "<span></span>"}
+      ${newer ? `<a href="${newer.slug}.html" style="text-align:right"><span class="dir">Newer →</span><span class="title">${escapeHtml(newer.title)}</span></a>` : "<span></span>"}
+    `;
+  } catch {
+    /* ignore */
   }
 }
 

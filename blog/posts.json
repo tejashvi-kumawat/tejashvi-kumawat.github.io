@@ -10,5 +10,11 @@
     "title": "Sovaria, agents, and selective focus",
     "summary": "What I’m prioritizing: Sovaria, agent research, GeoPeriX optimization work, and campus systems that actually ship.",
     "date": "2026-03-28"
+  },
+  {
+    "slug": "document-studio-open-and-fast",
+    "title": "Why Document Studio is open — and why local beats Acrobat’s cloud path",
+    "summary": "Feature parity with suite-class PDF jobs, open source for auditability, and why local engines feel faster than cloud conversion.",
+    "date": "2026-04-02"
   }
 ]

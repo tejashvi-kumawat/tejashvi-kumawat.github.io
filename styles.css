@@ -129,49 +129,106 @@ main {
   animation: rise 0.9s ease both;
 }
 
-.hero-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) min(150px, 34vw);
-  gap: 1.25rem;
-  align-items: start;
-  isolation: isolate;
+.hero {
+  position: relative;
+  overflow: visible;
 }
 
-@media (min-width: 860px) {
+.hero-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  align-items: center;
+  isolation: isolate;
+  min-height: clamp(360px, 62vh, 620px);
+  position: relative;
+}
+
+@media (min-width: 780px) {
   .hero-layout {
-    grid-template-columns: minmax(0, 1fr) min(280px, 32vw);
-    gap: 2.5rem;
-    align-items: center;
+    grid-template-columns: minmax(0, 1.05fr) minmax(280px, 1fr);
+  }
+
+  /* Bleed into the right viewport so the figure emerges from the page edge */
+  .hero-photo {
+    width: calc(100% + max(1.5rem, (100vw - var(--max)) / 2));
+    margin-right: calc(-1 * max(1.5rem, (100vw - var(--max)) / 2));
   }
 }
 
+.hero-copy {
+  position: relative;
+  z-index: 3;
+  padding-right: 1rem;
+}
+
+/* Photo emerges from the right into the cell field — no card chrome */
 .hero-photo {
   margin: 0;
   position: relative;
   z-index: 2;
-  justify-self: end;
   width: 100%;
-  aspect-ratio: 3 / 4;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  overflow: hidden;
-  background: #0a0a0a;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
-  transition: transform 0.35s ease, border-color 0.35s ease;
+  height: 100%;
+  min-height: clamp(300px, 52vh, 560px);
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
+  pointer-events: none;
 }
 
-.hero-photo:hover {
-  transform: translateY(-4px);
-  border-color: rgba(216, 255, 62, 0.55);
+@media (max-width: 779px) {
+  .hero-layout { min-height: 0; }
+  .hero-photo {
+    order: -1;
+    min-height: 280px;
+    max-width: 320px;
+    margin: 0 auto 0.5rem;
+  }
 }
 
 .hero-photo img {
   width: 100%;
   height: 100%;
+  min-height: inherit;
   object-fit: cover;
-  object-position: 50% 18%;
+  object-position: 52% 12%;
   display: block;
-  filter: contrast(1.05) saturate(1.05);
+  filter: contrast(1.08) saturate(0.88) brightness(0.86);
+  /* Soft dissolve into black cells on every edge */
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, #000 18%, #000 72%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, #000 12%, #000 78%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(90deg, transparent 0%, #000 18%, #000 72%, transparent 100%),
+    linear-gradient(180deg, transparent 0%, #000 12%, #000 78%, transparent 100%);
+  mask-composite: intersect;
 }
+
+.hero-photo::after {
+  content: "";
+  position: absolute;
+  inset: -8% -12%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 80% at 70% 40%, transparent 20%, rgba(0, 0, 0, 0.55) 70%, #000 100%),
+    linear-gradient(90deg, #000 0%, transparent 40%),
+    linear-gradient(180deg, transparent 55%, #000 100%);
+}
+
+.work-note {
+  margin: 0.75rem 0 0;
+  padding: 0.85rem 1rem;
+  border-left: 3px solid var(--accent);
+  background: rgba(216, 255, 62, 0.04);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.work-note strong { color: var(--ink); }
+
+.work-copy p + p { margin-top: 0.75rem; }
 
 /* Invert against lit cells; stays readable while scrolling over the field */
 .on-cells {

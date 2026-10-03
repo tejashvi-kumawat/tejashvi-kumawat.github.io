@@ -14,7 +14,7 @@ function initCellField() {
   const ctx = canvas.getContext("2d", { alpha: false });
   if (!ctx) return;
 
-  const HOLD_MS = 850;
+  const HOLD_MS = 280;
   const RADIUS = 150;
   let cells = [];
   let cols = 0;
@@ -75,7 +75,7 @@ function initCellField() {
         c.heat = target;
         c.holdUntil = now + HOLD_MS;
       } else if (now > c.holdUntil) {
-        c.heat += (0 - c.heat) * 0.045;
+        c.heat += (0 - c.heat) * 0.18;
         if (c.heat < 0.002) c.heat = 0;
       }
 

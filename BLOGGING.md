@@ -43,3 +43,13 @@ Still no “shared blog password” on the public internet.
 - [ ] `blog/<slug>.html` (clone an existing post page)
 - [ ] entry in `blog/posts.json`
 - [ ] push to `main`
+
+## SEO build (required after every change)
+Posts are pre-rendered into static HTML (so search engines see the text, not an empty "Loading…" page),
+and `sitemap.xml`, `robots.txt` and `feed.xml` are regenerated:
+
+```bash
+pip install markdown pyyaml
+python tools/build_seo.py
+```
+Commit the generated files together with your post. Each post's `description:` in its front matter is used as the meta description.

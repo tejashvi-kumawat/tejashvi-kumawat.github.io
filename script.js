@@ -234,6 +234,7 @@ async function initRecentPosts() {
 
 async function initBlogIndex() {
   const el = document.getElementById("allPosts");
+  if (el && el.dataset.prerendered) return;
   if (!el) return;
   try {
     const res = await fetch("posts.json", { cache: "no-store" });
@@ -275,6 +276,10 @@ async function initBlogPost() {
   if (!el) return;
   const slug = el.dataset.slug;
   if (!slug) return;
+  if (el.dataset.prerendered) {
+    enhanceCodeBlocks(el);
+    return;
+  }
   try {
     const res = await fetch(`${slug}.md`, { cache: "no-store" });
     if (!res.ok) throw new Error("missing md");

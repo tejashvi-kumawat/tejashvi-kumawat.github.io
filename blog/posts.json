@@ -1,14 +1,68 @@
 [
   {
+    "slug": "bacm-shared-memory-parallel-agents",
+    "title": "BACM: shared memory for parallel LLM agents that stays correct when the code changes",
+    "summary": "Research write-up: a transparent, provenance-aware shared context manager for parallel LLM agents. 89% / 88% accuracy vs 58% / 49% for independent agents, stale answers cut from 61 to 7 of 186. Paper PDF, code and limitations.",
+    "date": "2026-10-07",
+    "tags": [
+      {
+        "label": "Paper (PDF)",
+        "href": "https://tejashvi-kumawat.github.io/assets/bacm-paper.pdf"
+      },
+      {
+        "label": "Code",
+        "href": "https://github.com/tejashvi-kumawat/bacm"
+      },
+      {
+        "label": "LLM agents"
+      },
+      {
+        "label": "Research"
+      }
+    ]
+  },
+  {
+    "slug": "document-studio-v1-2-0",
+    "title": "Document Studio v1.2.0 — Word and PowerPoint editors, Quick Tools and tool pages with live preview",
+    "summary": "What is new in v1.2.0: Word and PowerPoint editors, a customizable Quick Tools bar, preview-pane tool pages, PDFs opening as tabs, faster PDF editing and qpdf-free tools.",
+    "date": "2026-10-07",
+    "tags": [
+      {
+        "label": "GitHub",
+        "href": "https://github.com/tejashvi-kumawat/DocumentStudio"
+      },
+      {
+        "label": "v1.2.0",
+        "href": "https://github.com/tejashvi-kumawat/DocumentStudio/releases/tag/v1.2.0"
+      },
+      {
+        "label": "Offline PDF"
+      },
+      {
+        "label": "Open Source"
+      }
+    ]
+  },
+  {
     "slug": "document-studio-open-and-fast",
     "title": "Document Studio — offline PDF toolkit vs Acrobat and online converters",
     "summary": "Why install Document Studio, full feature map, downloads and install commands for Windows, macOS, and Linux, and why local engines beat Adobe cloud and browser upload tools.",
     "date": "2026-10-03",
     "tags": [
-      { "label": "GitHub", "href": "https://github.com/tejashvi-kumawat/DocumentStudio" },
-      { "label": "v1.0.3", "href": "https://github.com/tejashvi-kumawat/DocumentStudio/releases/tag/v1.0.3" },
-      { "label": "Offline PDF" },
-      { "label": "Open Source" }
+      {
+        "label": "GitHub",
+        "href": "https://github.com/tejashvi-kumawat/DocumentStudio"
+      },
+      {
+        "label": "v1.0.3",
+        "href": "https://github.com/tejashvi-kumawat/DocumentStudio/releases/tag/v1.0.3"
+      },
+      {
+        "label": "Offline PDF"
+      },
+      {
+        "label": "Open Source"
+      }
     ]
   }
 ]

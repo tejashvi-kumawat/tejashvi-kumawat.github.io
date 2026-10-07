@@ -8,6 +8,8 @@ tags:
   - Open Source
 ---
 
+<p><em>Update: the latest release is <a href="https://github.com/tejashvi-kumawat/DocumentStudio/releases/tag/v1.2.0">v1.2.0</a> — see <a href="document-studio-v1-2-0.html">what is new</a>. Download links below point to v1.0.3.</em></p>
+
 <div class="blog-split">
 <div class="blog-split-main">
 <p><strong>Document Studio</strong> is a free, ad-free, offline PDF workspace for Windows, macOS, and Linux. Files are processed <strong>on your device</strong> — no account, no ads, no Document Studio cloud that ever sees your documents.</p>

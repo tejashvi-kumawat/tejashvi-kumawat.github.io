@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BACM: shared memory for parallel LLM agents that stays correct when the code changes · Tejashvi Kumawat</title>
+  <meta name="description" content="Research write-up of BACM, a transparent, provenance-aware shared context manager for parallel LLM agents on changing codebases: 89% / 88% accuracy against 58% / 49% for independent agents, and stale answers cut from 61 to 7 of 186. Paper PDF, code and honest limitations." />
+  <meta name="author" content="Tejashvi Kumawat" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://tejashvi-kumawat.github.io/blog/bacm-shared-memory-parallel-agents.html" />
+  <link rel="alternate" type="application/atom+xml" title="Tejashvi Kumawat — blog" href="https://tejashvi-kumawat.github.io/feed.xml" />
+  <meta property="og:site_name" content="Tejashvi Kumawat" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="BACM: shared memory for parallel LLM agents that stays correct when the code changes · Tejashvi Kumawat" />
+  <meta property="og:description" content="Research write-up of BACM, a transparent, provenance-aware shared context manager for parallel LLM agents on changing codebases: 89% / 88% accuracy against 58% / 49% for independent agents, and stale answers cut from 61 to 7 of 186. Paper PDF, code and honest limitations." />
+  <meta property="og:url" content="https://tejashvi-kumawat.github.io/blog/bacm-shared-memory-parallel-agents.html" />
+  <meta property="og:image" content="https://tejashvi-kumawat.github.io/assets/tejashvi.jpg" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="BACM: shared memory for parallel LLM agents that stays correct when the code changes · Tejashvi Kumawat" />
+  <meta name="twitter:description" content="Research write-up of BACM, a transparent, provenance-aware shared context manager for parallel LLM agents on changing codebases: 89% / 88% accuracy against 58% / 49% for independent agents, and stale answers cut from 61 to 7 of 186. Paper PDF, code and honest limitations." />
+  <meta name="theme-color" content="#000000" />
+  <meta property="article:published_time" content="2026-10-07" />
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BlogPosting", "headline": "BACM: shared memory for parallel LLM agents that stays correct when the code changes", "description": "Research write-up of BACM, a transparent, provenance-aware shared context manager for parallel LLM agents on changing codebases: 89% / 88% accuracy against 58% / 49% for independent agents, and stale answers cut from 61 to 7 of 186. Paper PDF, code and honest limitations.", "datePublished": "2026-10-07", "dateModified": "2026-10-07", "mainEntityOfPage": "https://tejashvi-kumawat.github.io/blog/bacm-shared-memory-parallel-agents.html", "url": "https://tejashvi-kumawat.github.io/blog/bacm-shared-memory-parallel-agents.html", "image": "https://tejashvi-kumawat.github.io/assets/tejashvi.jpg", "author": {"@type": "Person", "name": "Tejashvi Kumawat", "url": "https://tejashvi-kumawat.github.io/"}, "publisher": {"@type": "Person", "name": "Tejashvi Kumawat", "url": "https://tejashvi-kumawat.github.io/"}}</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script src="../script.js" defer></script>
+</head>
+<body class="blog-page">
+  <canvas id="cellField" aria-hidden="true"></canvas>
+  <svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true"><symbol id="i-arrow" viewBox="0 0 24 24"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></symbol></svg>
+  <header class="top">
+    <a class="logo" href="../">Tejashvi</a>
+    <nav>
+      <a href="../#about">About</a>
+      <a href="../#work">Building</a>
+      <a href="./">Blog</a>
+      <a href="../#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="./">All posts</a>
+  </header>
+  <main>
+    <div class="blog-bar">
+      <a class="back-link" href="./">
+        <svg class="icon" width="16" height="16" aria-hidden="true"><use href="#i-arrow"/></svg>
+        Back to blog
+      </a>
+      <a class="back-link" href="../">Home</a>
+    </div>
+    <article class="panel">
+      <p class="post-meta"><time id="postDate" datetime="2026-10-07">7 October 2026</time></p>
+      <h1 id="postTitle" style="font-family:var(--font-display);letter-spacing:-0.03em;margin:0 0 0.75rem">BACM: shared memory for parallel LLM agents that stays correct when the code changes</h1>
+      <div class="post-tags" id="postTags"><a class="post-tag post-tag-link" href="https://tejashvi-kumawat.github.io/assets/bacm-paper.pdf" target="_blank" rel="noopener noreferrer">Paper (PDF)</a><a class="post-tag post-tag-link" href="https://github.com/tejashvi-kumawat/bacm" target="_blank" rel="noopener noreferrer">Code</a><span class="post-tag">LLM agents</span><span class="post-tag">Research</span></div>
+      <div id="postBody" class="prose" data-slug="bacm-shared-memory-parallel-agents" data-prerendered="1">
+<div class="blog-split">
+<div class="blog-split-main">
+<p>When several LLM agents work on the same codebase in parallel, two things go wrong. They <strong>re-read the same files</strong> and re-derive the same facts, and, once the code changes, every agent keeps trusting <strong>what it read before</strong>. Shared memory fixes the first problem and makes the second one worse: a stale fact in shared memory misleads every agent that reuses it.</p>
+<p>My paper, <strong>“BACM: Transparent, Provenance-Aware Shared Memory for Parallel LLM Agents on Changing Codebases”</strong>, asks one narrow question: <em>can a shared context manager keep parallel agents correct when the source changes mid-run, without making them more expensive?</em> This post is the short version. The full paper (24 pages), code, benchmark, cached model responses and analysis scripts are public.</p>
+</div>
+<aside class="blog-rail">
+<p class="blog-rail-label">Read it</p>
+<a class="blog-rail-btn" href="https://tejashvi-kumawat.github.io/assets/bacm-paper.pdf">Paper (PDF) →</a>
+<a class="blog-rail-btn ghost" href="https://github.com/tejashvi-kumawat/bacm">Code &amp; benchmark</a>
+<ul class="blog-rail-meta">
+<li><strong>Author:</strong> Tejashvi Kumawat</li>
+<li><strong>Model:</strong> GPT-5 mini (+ Gemini replication)</li>
+<li><strong>Benchmark:</strong> RepoQA-Dyn, 5 real repos</li>
+<li><strong>Protocol:</strong> pre-registered, held-out seeds</li>
+</ul>
+</aside>
+</div>
+
+<h2>The headline result</h2>
+<p>On held-out runs with GPT-5 mini (30 runs per cell, 5 repositories × 6 seeds), BACM answered <strong>89%</strong> of questions correctly on static repositories and <strong>88%</strong> when a real release landed in the middle of the run. Independent agents with context eviction got <strong>58%</strong> and <strong>49%</strong>. Both differences are significant after Holm correction (p = 0.0006).</p>
+<p>After the release, the number of <strong>stale answers</strong> (answers still equal to the pre-release truth) fell from <strong>61 to 7 out of 186</strong>.</p>
+<figure>
+<img src="../assets/bacm/main_tradeoff.png" alt="Accuracy against tokens per run for five systems, on static repositories and when the repository changes mid-run" loading="lazy" />
+<figcaption>Accuracy against tokens per run (means with 95% confidence intervals). Better systems are up and to the left.</figcaption>
+</figure>
+
+<h2>What BACM is</h2>
+<p>BACM (Branch-Aware Context Manager) treats agent memory the way a database treats derived data:</p>
+<ul>
+<li><strong>Typed knowledge objects with provenance.</strong> Every base fact records the file, the version and the exact span of code that supports it. Derived facts record their dependencies and the typed rule that computes them.</li>
+<li><strong>Exact invalidation.</strong> When a file changes, BACM keeps every fact whose supporting span is still present as a complete unit, and invalidates only the rest, plus everything derived from it.</li>
+<li><strong>Demand-driven recomputation.</strong> Only the part of the affected graph that some open question still needs is recomputed, from the smallest view that supports it (one class body, one outline).</li>
+<li><strong>Transparent memory.</strong> Agents never call the memory. The tool layer publishes what they read, serves already-read files as short digests, answers questions from known facts by typed rules, and keeps answers current after a change without waking the agents.</li>
+</ul>
+<p>That last point came from a failure. My first design exposed memory as tools (<code>kb_query</code>, <code>kb_publish</code>). It kept answers current but cost <em>more</em> than independent agents, because every memory operation is another model turn that re-sends the whole context. The token cost model in the paper (Eq. 3) explains why, and fits measured runs with R² of 0.86–0.87.</p>
+<h2>The surprising finding: reasoning is not consistency</h2>
+<p>I added a control where every independent agent reasons more (effort “low” instead of “minimal”). On <strong>static</strong> repositories it is as accurate as BACM (0.93 vs 0.89, not significant) and cheaper. But after a release it is stale for <strong>167 of 186</strong> changed answers, the most of any system.</p>
+<p>Agents that reason more read the old code more accurately, and then keep what they read. Nothing in an agent’s context tells it that what it read has since changed. <strong>State consistency is a property of the memory, not of the reasoning applied to it</strong>, so it has to come from mechanism: provenance, versions and dependency-aware invalidation.</p>
+<figure>
+<img src="../assets/bacm/stale.png" alt="Outcome of every final answer whose ground truth changed during the run: current, stale or otherwise wrong, per system" loading="lazy" />
+<figcaption>Outcome of each answer whose truth changed during the run. Green is current; red is stale (the pre-release truth).</figcaption>
+</figure>
+
+<h2>The benchmark: RepoQA-Dyn</h2>
+<p>Five real Python repositories (httpx, requests, flask, click, rich), each pinned at a release, with a later real release landing mid-run: files move, classes get re-parented, methods are added. Questions have exact ground truth from Python’s <code>ast</code> module (base file, grandbase, family files, method count, method total across ancestors), so accuracy is decided by the models’ reading, not by a judge.</p>
+<table>
+<thead>
+<tr>
+<th>System</th>
+<th>Static accuracy</th>
+<th>Changing accuracy</th>
+<th>Stale answers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Independent + evict</td>
+<td>0.58</td>
+<td>0.49</td>
+<td>61 / 186</td>
+</tr>
+<tr>
+<td>Independent + evict, low effort</td>
+<td>0.93</td>
+<td>0.63</td>
+<td>167 / 186</td>
+</tr>
+<tr>
+<td>Selective memory (transparent)</td>
+<td>0.89</td>
+<td>0.64</td>
+<td>131 / 186</td>
+</tr>
+<tr>
+<td><strong>BACM</strong></td>
+<td><strong>0.89</strong></td>
+<td><strong>0.88</strong></td>
+<td><strong>7 / 186</strong></td>
+</tr>
+<tr>
+<td>BACM-Index (upper bound)</td>
+<td>0.95</td>
+<td>0.93</td>
+<td>11 / 186</td>
+</tr>
+</tbody>
+</table>
+<h2>What does not work (and I say so in the paper)</h2>
+<ul>
+<li><strong>Token savings are not established.</strong> Pooled token use changed by −22% (static) and −26% (changing), but neither is statistically significant. Per repository it ranges from −65% (click, changing) to +170% (requests, static), because the extraction calls cost more than the redundant reads they replace when relevant files are few and small. I claim consistency under change, not lower cost.</li>
+<li><strong>Extraction errors propagate.</strong> Counts extracted by a model are the main source of error, and with shared memory one wrong count reaches every agent. With an exact symbol index instead of a model, the same architecture reaches 0.95 / 0.93 at lower cost.</li>
+<li><strong>Narrow benchmark.</strong> Five repositories, one language, one release jump each, structural questions. End-to-end tasks scored by tests were not run. The second model family (Gemini 3.5 Flash-Lite) has only ten runs per cell, which supports the direction of the effect, not generality.</li>
+<li><strong>Two defects in my own implementation</strong> were found after the pre-registered runs: a provenance span that covered only a class header, and a non-recursive rebuild of stale derived facts. Frozen and corrected results (0.76 → 0.88 accuracy, 46 → 7 stale) are reported side by side in Table 7, and the corrected numbers should be read as the intended design, not a fully pre-registered result.</li>
+</ul>
+<h2>Reproduce it</h2>
+<p>Every number, table and figure is generated from the run logs, and all model responses are cached, so the analysis replays without new API calls. The pre-registration records a SHA-256 fingerprint of the frozen code, and every later change is logged as an amendment.</p>
+<pre><code class="language-bash">git clone https://github.com/tejashvi-kumawat/bacm
+cd bacm
+python -m bacm run --suite repobench2 --seed0 200 --seeds 6 \
+  --archs independent_evict,selective_llm,bacm_llm,bacm_auto \
+  --backend openai_compat --provider openai --model gpt-5-mini \
+  --max-usd &lt;cap&gt; --out results_real/final
+</code></pre>
+<h2>Cite</h2>
+<blockquote>
+<p>Tejashvi Kumawat. <em>BACM: Transparent, Provenance-Aware Shared Memory for Parallel LLM Agents on Changing Codebases.</em> 2026. <a href="https://tejashvi-kumawat.github.io/assets/bacm-paper.pdf">PDF</a> · <a href="https://github.com/tejashvi-kumawat/bacm">Code</a></p>
+</blockquote>
+<p>A <code>CITATION.cff</code> file is in the repository.</p>
+      </div>
+      <nav class="post-nav" id="postNav" aria-label="Post navigation"><a href="document-studio-v1-2-0.html"><span class="dir">← Older</span><span class="title">Document Studio v1.2.0 — Word and PowerPoint editors, Quick Tools and tool pages with live preview</span></a><span></span></nav>
+    </article>
+  </main>
+  <footer class="footer">
+    <p><a href="./">← Blog</a> · <a href="../">Home</a></p>
+  </footer>
+</body>
+</html>

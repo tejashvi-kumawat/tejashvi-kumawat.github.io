@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Tejashvi Kumawat — blog</title>
+  <link href="https://tejashvi-kumawat.github.io/blog/"/>
+  <link rel="self" href="https://tejashvi-kumawat.github.io/feed.xml"/>
+  <id>https://tejashvi-kumawat.github.io/</id>
+  <updated>2026-10-07T00:00:00Z</updated>
+  <author><name>Tejashvi Kumawat</name></author>
+  <entry>
+    <title>BACM: shared memory for parallel LLM agents that stays correct when the code changes</title>
+    <link href="https://tejashvi-kumawat.github.io/blog/bacm-shared-memory-parallel-agents.html"/>
+    <id>https://tejashvi-kumawat.github.io/blog/bacm-shared-memory-parallel-agents.html</id>
+    <updated>2026-10-07T00:00:00Z</updated>
+    <summary>Research write-up: a transparent, provenance-aware shared context manager for parallel LLM agents. 89% / 88% accuracy vs 58% / 49% for independent agents, stale answers cut from 61 to 7 of 186. Paper PDF, code and limitations.</summary>
+  </entry>
+  <entry>
+    <title>Document Studio v1.2.0 — Word and PowerPoint editors, Quick Tools and tool pages with live preview</title>
+    <link href="https://tejashvi-kumawat.github.io/blog/document-studio-v1-2-0.html"/>
+    <id>https://tejashvi-kumawat.github.io/blog/document-studio-v1-2-0.html</id>
+    <updated>2026-10-07T00:00:00Z</updated>
+    <summary>What is new in v1.2.0: Word and PowerPoint editors, a customizable Quick Tools bar, preview-pane tool pages, PDFs opening as tabs, faster PDF editing and qpdf-free tools.</summary>
+  </entry>
+  <entry>
+    <title>Document Studio — offline PDF toolkit vs Acrobat and online converters</title>
+    <link href="https://tejashvi-kumawat.github.io/blog/document-studio-open-and-fast.html"/>
+    <id>https://tejashvi-kumawat.github.io/blog/document-studio-open-and-fast.html</id>
+    <updated>2026-10-03T00:00:00Z</updated>
+    <summary>Why install Document Studio, full feature map, downloads and install commands for Windows, macOS, and Linux, and why local engines beat Adobe cloud and browser upload tools.</summary>
+  </entry>
+</feed>

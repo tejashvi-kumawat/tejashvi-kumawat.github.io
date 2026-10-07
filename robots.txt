@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://tejashvi-kumawat.github.io/sitemap.xml
+Sitemap: https://tejashvi-kumawat.github.io/DocumentStudio/sitemap.xml

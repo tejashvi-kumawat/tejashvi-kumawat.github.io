@@ -255,7 +255,7 @@ def write_site_files(posts):
         encoding="utf-8",
     )
     (ROOT / "robots.txt").write_text(
-        f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n", encoding="utf-8"
+        f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\nSitemap: {SITE}/DocumentStudio/sitemap.xml\n", encoding="utf-8"
     )
     entries = "".join(
         f"""  <entry>

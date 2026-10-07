@@ -79,6 +79,7 @@ def head(title, description, canonical, og_type="website", extra="", prefix="../
   <meta name="twitter:title" content="{esc(title)}" />
   <meta name="twitter:description" content="{esc(description)}" />
   <meta name="theme-color" content="#000000" />
+  <meta name="google-site-verification" content="QkLkGs-dC5ODQAl7S6HN8J9Vq0is6BIBXomtna_aylA" />
   {extra}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
